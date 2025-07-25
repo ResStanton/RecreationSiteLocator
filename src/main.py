@@ -1,7 +1,7 @@
 # Import modules
 import flask
 
-# Setup flask application 
+# Setup flask application
 app = flask.Flask("Recreation Site Locator")
 
 # create basic home page
