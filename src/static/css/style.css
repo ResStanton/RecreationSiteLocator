@@ -8,8 +8,8 @@
 /* Body */
 body {
   font-family: Arial, sans-serif;
-  background-color: #2b70a2;
-  color: #128f1a;
+  background-color: #ecf2fa;
+  color: black;
   line-height: 1.5;
   padding: 8px 0;
   text-align: left;
@@ -19,8 +19,8 @@ body {
     position: absolute;
     top: 1;
     bottom: 1;
-    width: 50%;
-    height: 50%;
+    width: 75%;
+    height: 97%;
 }
 
 /* Browser header */
@@ -134,3 +134,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+#mapArea{float:right;
+width:70%}
+#description{float:left;background-color: #faf5ed;}
+#searchBar{background-color: #faf5ed;}
