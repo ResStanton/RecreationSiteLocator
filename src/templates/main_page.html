@@ -61,6 +61,10 @@
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map)
+
+            // Add a dummy point (marker)
+    var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
+    dummyMarker.bindPopup("<b>Dummy Point</b><br>Denver, CO").openPopup();
         </script>
     </div>
 {% endblock %}
