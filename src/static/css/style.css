@@ -23,118 +23,16 @@ body {
     height: 97%;
 }
 
-/* Browser header */
-.browser-header {
-  background-color: #ccc;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid #aaa;
+#mapArea{
+  float:right;
+  width:70%
 }
 
-.nav-buttons {
-  margin-right: 10px;
+#description{
+  float:left;
+  background-color: #faf5ed;
 }
 
-.nav-buttons button {
-  margin-right: 5px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #999;
-  color: white;
-  cursor: pointer;
-  border-radius: 3px;
+#searchBar{
+  background-color: #faf5ed;
 }
-
-.nav-buttons button:hover {
-  background-color: #777;
-}
-
-.address-bar {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-}
-
-/* Search bar */
-.search-bar {
-  display: flex;
-  padding: 10px;
-  background: #ccc;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  gap: 10px;
-}
-
-.search-bar input[type="text"],
-.search-bar select,
-.search-bar button {
-  padding: 8px 10px;
-  border: 1px solid #aaa;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.search-bar button {
-  background-color: #031224;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #357ABD;
-}
-
-/* Main layout */
-.main-container {
-  display: flex;
-  height: calc(100vh - 110px); /* Header + search bar */
-}
-
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #f4f4f4;
-  padding: 15px;
-  overflow-y: auto;
-  border-right: 1px solid #ccc;
-}
-
-.sidebar label {
-  display: block;
-  margin: 15px 0 5px;
-  font-weight: bold;
-  color: #444;
-}
-
-.sidebar div {
-  background-color: #fff;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: monospace;
-}
-
-/* Map view */
-.map-view {
-  flex: 1;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.map-view img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-#mapArea{float:right;
-width:70%}
-#description{float:left;background-color: #faf5ed;}
-#searchBar{background-color: #faf5ed;}
