@@ -48,3 +48,10 @@ h1 {
   margin-top: 5px;
   border-top: 2px solid #bdc3c7;
 }
+#map { 
+    position: absolute;
+    top: 1;
+    bottom: 1;
+    width: 50%;
+    height: 50%;
+}
