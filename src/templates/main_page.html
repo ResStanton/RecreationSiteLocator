@@ -1,22 +1,36 @@
 {% extends "base.html" %}
-{%block body%}
-    <div>
-        <div>
-            <button>&larr;</button>
-            <button>&crarr;</button>
-            <input type="text" placeholder="Enter URL or search here..." />
-        </div>
-    </div>
 
+<!-- A macro for simplifying creating and setting the dropdowns for the search bar  -->
+<!-- Macros is basically a function -->
+{% macro list_option(value, name, selected) %}
+    <option value="{{value}}" {%if selected == value %} selected {% endif %}> {{name}} </option>
+{% endmacro %}
+
+{%block body%}
+   
+    <!-- The Search Bar using a from with a the post method so it can be passed into Python-->
     <div>
-        <input type="text" placeholder="Search..." />
-        <button>Search</button>
-        <select>
-            <option>Search Type</option>
-        </select>
-        <select>
-            <option>Filter By</option>
-        </select>
+        <form method="post"> 
+            <!-- search text felid and search button-->
+            <input type="text" id="search" name="search" value="{{search_input['query']}}">
+            <input type="submit" value="Search">
+
+            <!-- The dropdown for the search type that is populated using the list from python -->
+            <select id="search_type" name="search_type">
+                {{ list_option(value='', name='Search Type', selected=search_input['search_type']) }}
+                {% for type in search_types%}
+                    {{ list_option(value=type['id'], name=type['display'], selected=search_input['search_type']) }}
+                {% endfor %}
+            </select>
+
+            <!-- The dropdown for the filter type that is populated using the list from python -->
+            <select id="filter_type" name="filter_type" >
+                {{ list_option(value='', name='Filter By', selected=search_input['search_filter']) }}
+                {% for type in search_filters%}
+                    {{ list_option(value=type['id'], name=type['display'], selected=search_input['search_filter']) }}
+                {% endfor %}
+            </select>
+        </form>
     </div>
 
     <div> 
@@ -40,6 +54,13 @@
     </div>
 
     <div>
-        <img src="{{url_for('static', filename='images/USMAP.jpg')}}" alt="World Map" />
+        <div id="map"></div>
+        <script>
+            var map = L.map('map').setView([39, -105.5], 8);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map)
+        </script>
     </div>
 {% endblock %}
