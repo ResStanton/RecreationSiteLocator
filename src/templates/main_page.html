@@ -35,22 +35,22 @@
 
     <div> 
         <p><strong>Name:</strong></p> 
-        <p>_______________________</p>
+        <p><i>Recreation Areas.</i></p>
 
         <p><strong>Activity:</strong></p>
-        <p>_______________________</p>
+        <p><i>Activities available at slected location.</i></p>
 
         <p><strong>Description:</strong></p>
-        <p>_______________________<br>_______________________<br>_______________________</p>
+        <p><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
 
         <p><strong>Hours:</strong></p>
-        <p>_______________________</p>
+        <p><i>Staffed operating hours.</i></p>
 
         <p><strong>Fees:</strong></p>
-        <p>_______________________</p>
+        <p><i> Fees with selected activities and services.</i></p>
 
         <p><strong>Restrictions:</strong></p>
-        <p>_______________________</p>
+        <p><i>Length of stay, size of water crafts, etc.</i></p>
     </div>
 
     <div>
@@ -61,6 +61,10 @@
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map)
+
+            // Add a dummy point (marker)
+    var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
+    dummyMarker.bindPopup("<b>Dummy Point</b><br>Denver, CO").openPopup();
         </script>
     </div>
 {% endblock %}
