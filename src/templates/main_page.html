@@ -55,7 +55,28 @@
         </form>
     </div>
 
+    <div> 
+        <p><strong>Name:</strong></p> 
+        <p><i>Recreation areas.</i></p>
+
+        <p><strong>Activity:</strong></p>
+        <p><i>Activities available at selected location.</i></p>
+
+        <p><strong>Description:</strong></p>
+        <p><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
+
+        <p><strong>Hours:</strong></p>
+        <p><i>Staffed operating hours.</i></p>
+
+        <p><strong>Fees:</strong></p>
+        <p><i> Fees with selected activities and services.</i></p>
+
+        <p><strong>Restrictions:</strong></p>
+        <p><i>Length of stay, size of water crafts, etc.</i></p>
+    </div>
+
     <div id="mapArea">
+
         <div id="map"></div>
         <script>
             var map = L.map('map').setView([39, -105.5], 8);
@@ -63,6 +84,11 @@
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map)
-        </script>
-    </div>
+
+            // Add a dummy point (marker)
+            var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
+            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
+            var dummymarker = L.marker([39.7767, -96.7970]).addTo(map);
+            dummyMarker.bindPopup("<b>Central USA</b><br>Dallas, Texas").openPopup();
+        </div>
 {% endblock %}
