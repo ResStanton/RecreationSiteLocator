@@ -11,8 +11,8 @@ body {
   background-color: #ecf2fa;
   color: black;
   line-height: 1.5;
-  padding: 8px 0;
-  text-align: left;
+  padding: 8px;
+  text-align: left
 }
 
 #map { 
@@ -20,19 +20,25 @@ body {
     top: 1;
     bottom: 1;
     width: 75%;
-    height: 97%;
+    height: 100%;
 }
 
 #mapArea{
   float:right;
-  width:70%
+  width: 76%;
+  height: 98%
 }
 
 #description{
+  height: 98%;
+  overflow-y: scroll;
   float:left;
   background-color: #faf5ed;
+  padding: 10px
 }
 
 #searchBar{
   background-color: #faf5ed;
+  width: 100%;
+  padding: 10
 }
