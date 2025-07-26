@@ -8,8 +8,30 @@
 
 {%block body%}
    
-    <!-- The Search Bar using a from with a the post method so it can be passed into Python-->
-    <div>
+   
+
+    <div id="description"> 
+        <p><strong>Name:</strong></p> 
+        <p>_______________________</p>
+
+        <p><strong>Activity:</strong></p>
+        <p>_______________________</p>
+
+        <p><strong>Description:</strong></p>
+        <p>_______________________<br>_______________________<br>_______________________</p>
+
+        <p><strong>Hours:</strong></p>
+        <p>_______________________</p>
+
+        <p><strong>Fees:</strong></p>
+        <p>_______________________</p>
+
+        <p><strong>Restrictions:</strong></p>
+        <p>_______________________</p>
+    </div>
+
+ <!-- The Search Bar using a from with a the post method so it can be passed into Python-->
+    <div id="searchBar">
         <form method="post"> 
             <!-- search text felid and search button-->
             <input type="text" id="search" name="search" value="{{search_input['query']}}">
@@ -53,7 +75,8 @@
         <p><i>Length of stay, size of water crafts, etc.</i></p>
     </div>
 
-    <div>
+    <div id="mapArea">
+
         <div id="map"></div>
         <script>
             var map = L.map('map').setView([39, -105.5], 8);
