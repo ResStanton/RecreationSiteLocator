@@ -8,26 +8,25 @@
 
 {%block body%}
    
-   
-
+    <!-- The area for the description of a location  -->
     <div id="description"> 
-        <p><strong>Name:</strong></p> 
-        <p>_______________________</p>
+      <p><strong>Name:</strong></p> 
+        <p><i>Recreation areas.</i></p>
 
         <p><strong>Activity:</strong></p>
-        <p>_______________________</p>
+        <p><i>Activities available at selected location.</i></p>
 
         <p><strong>Description:</strong></p>
-        <p>_______________________<br>_______________________<br>_______________________</p>
+        <p><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
 
         <p><strong>Hours:</strong></p>
-        <p>_______________________</p>
+        <p><i>Staffed operating hours.</i></p>
 
         <p><strong>Fees:</strong></p>
-        <p>_______________________</p>
+        <p><i> Fees with selected activities and services.</i></p>
 
         <p><strong>Restrictions:</strong></p>
-        <p>_______________________</p>
+        <p><i>Length of stay, size of water crafts, etc.</i></p>
     </div>
 
  <!-- The Search Bar using a from with a the post method so it can be passed into Python-->
@@ -55,30 +54,11 @@
         </form>
     </div>
 
-    <div> 
-        <p><strong>Name:</strong></p> 
-        <p><i>Recreation areas.</i></p>
-
-        <p><strong>Activity:</strong></p>
-        <p><i>Activities available at selected location.</i></p>
-
-        <p><strong>Description:</strong></p>
-        <p><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
-
-        <p><strong>Hours:</strong></p>
-        <p><i>Staffed operating hours.</i></p>
-
-        <p><strong>Fees:</strong></p>
-        <p><i> Fees with selected activities and services.</i></p>
-
-        <p><strong>Restrictions:</strong></p>
-        <p><i>Length of stay, size of water crafts, etc.</i></p>
-    </div>
-
+    <!-- The area for the interactive map -->
     <div id="mapArea">
-
         <div id="map"></div>
         <script>
+            // Configure and setup map
             var map = L.map('map').setView([39, -105.5], 8);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -90,5 +70,6 @@
             dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
             var dummymarker = L.marker([39.7767, -96.7970]).addTo(map);
             dummyMarker.bindPopup("<b>Central USA</b><br>Dallas, Texas").openPopup();
-        </div>
+        </script>
+    </div>
 {% endblock %}
