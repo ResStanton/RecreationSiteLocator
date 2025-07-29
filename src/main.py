@@ -61,6 +61,13 @@ def home_page():
         markers=markers  # <- you’ll use this in main_page.html
     )
 
+
+@app.route('/location', methods=['POST'])
+def location():
+    data = flask.request.json
+    print(data)
+    return "YOU CLICKED THE POINT"
+
 # Run app in debug mode
 if __name__ == "__main__":
     app.run(debug=True)

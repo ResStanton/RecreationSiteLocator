@@ -11,7 +11,7 @@
     <!-- The area for the description of a location  -->
     <div id="description"> 
       <p><strong>Name:</strong></p> 
-        <p><i>Recreation areas.</i></p>
+        <p id="desc_name"><i>Recreation areas.</i></p>
 
         <p><strong>Activity:</strong></p>
         <p><i>Activities available at selected location.</i></p>
@@ -57,13 +57,23 @@
     <!-- The area for the interactive map -->
     <div id="mapArea">
         <div id="map"></div>
+        <script>
+            // point click function
+            function onClick(ev) {
+                $.ajax({
+                    url: '/location',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(ev.latlng),
+                    success: function(response) {
+                        document.getElementById("desc_name").innerHTML = response;
+                    },
+                    error: function(error) {
+                    console.log(error);
+                    }
+                });
+            }
 
-<!-- Map Container -->
-    <script>    
-        // point click function
-        function onClick(ev) {
-            alert(ev.latlng)
-        }
             
         // Initialize the map centered on USA
        var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
