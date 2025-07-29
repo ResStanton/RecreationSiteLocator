@@ -58,6 +58,11 @@
     <div id="mapArea">
         <div id="map"></div>
         <script>
+            // point click function
+            function onClick(ev) {
+                alert(ev.latlng)
+            }
+            
             // Configure and setup map
             var map = L.map('map').setView([39, -105.5], 8);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -66,8 +71,10 @@
             }).addTo(map)
 
             // Add a dummy point (marker)
-            var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
-            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
+            var dummyMarker = L.marker([39.7392, -104.9903]);
+            dummyMarker.addTo(map);
+            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO");
+            dummyMarker.on('click', onClick)
         </script>
     </div>
 {% endblock %}
