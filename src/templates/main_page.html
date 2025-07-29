@@ -11,7 +11,7 @@
     <!-- The area for the description of a location  -->
     <div id="description"> 
       <p><strong>Name:</strong></p> 
-        <p><i>Recreation areas.</i></p>
+        <p id="desc_name"><i>Recreation areas.</i></p>
 
         <p><strong>Activity:</strong></p>
         <p><i>Activities available at selected location.</i></p>
@@ -60,7 +60,18 @@
         <script>
             // point click function
             function onClick(ev) {
-                alert(ev.latlng)
+                $.ajax({
+                    url: '/location',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(ev.latlng),
+                    success: function(response) {
+                        document.getElementById("desc_name").innerHTML = response;
+                    },
+                    error: function(error) {
+                    console.log(error);
+                    }
+                });
             }
             
             // Configure and setup map
@@ -74,7 +85,7 @@
             var dummyMarker = L.marker([39.7392, -104.9903]);
             dummyMarker.addTo(map);
             dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO");
-            dummyMarker.on('click', onClick)
+            dummyMarker.on('click', onClick);
         </script>
     </div>
 {% endblock %}
