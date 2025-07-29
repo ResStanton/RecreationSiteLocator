@@ -60,6 +60,11 @@
 
 <!-- Map Container -->
     <script>    
+        // point click function
+        function onClick(ev) {
+            alert(ev.latlng)
+        }
+            
         // Initialize the map centered on USA
        var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
 
@@ -81,11 +86,14 @@
 
         // Loop through markers and place them on map
         markers.forEach(function(marker) {
-            group.addLayer(L.marker([marker.lat, marker.lon]).bindPopup(marker.name));
+            location = L.marker([marker.lat, marker.lon])
+            location.bindPopup(marker.name)
+            location.on('click', onClick)
+            group.addLayer(location);
         });
 
         // Add cluster group with points to the map
         map.addLayer(group);
     </script>
-    </div>
+
 {% endblock %}
