@@ -1,6 +1,9 @@
 # Import modules
 import flask
 
+# Import other python files
+import database
+
 # Setup flask application
 app = flask.Flask("Recreation Site Locator")
 
