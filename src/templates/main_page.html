@@ -57,27 +57,9 @@
     <!-- The area for the interactive map -->
     <div id="mapArea">
         <div id="map"></div>
-        <script>
-            // Configure and setup map
-            var map = L.map('map').setView([39, -105.5], 8);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map)
-
-            // Add a dummy point (marker)
-            var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
-            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
-
-            // Mark added 7/29/25--------------------------------------------
-<!-- Leaflet CSS + JS --
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Map Container -->
-    <div id="map" style="height: 600px; width: 100%; margin: 20px 0;"></div>
-
-    
+    <script>    
         // Initialize the map centered on USA
        var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
 
@@ -96,6 +78,6 @@
             .bindPopup(marker.name);
     });
         // End of Mark's Code ------------------------------------------------
-        </script
+        </script>
     </div>
 {% endblock %}

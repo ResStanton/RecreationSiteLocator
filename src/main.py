@@ -31,7 +31,7 @@ def home_page():
         {"id": "Picnicking", "display": "Picnicking"},
     ]
 
-    # ✅ STEP 2: Connect to DB and get markers
+    # Mark added 7/29/25    STEP 2: Connect to DB and get markers
     db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
     locations = db.query_all()
     db.close()
@@ -46,7 +46,7 @@ def home_page():
                 'lat': coords[1],
                 'lon': coords[0]
             })
-        except KeyError:
+        except TypeError:
             continue
 
     # ✅ STEP 3: Pass markers to template
@@ -57,7 +57,7 @@ def home_page():
         search_filters=search_filters,
         markers=markers  # <- you’ll use this in main_page.html
     )
-
+    # End of Mark's Code -------------------------------------------
 # Run app in debug mode
 if __name__ == "__main__":
     app.run(debug=True)
