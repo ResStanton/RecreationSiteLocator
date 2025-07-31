@@ -93,7 +93,7 @@ def location():
     if location_information["restrictions"] is None:
         location_information["restrictions"] = "<i>No restrictions listed.</i>"
     if location_information["reservations"] is None:
-        location_information["reservations"] = "<i>No reservation requirements listed listed.</i>"
+        location_information["reservations"] = "<i>No reservation requirements listed.</i>"
 
     return flask.jsonify(location_information)
 
