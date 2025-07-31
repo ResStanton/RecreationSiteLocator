@@ -71,12 +71,21 @@
         // Get the markers from Flask
         var markers = {{ markers|tojson }};
 
+        // Create point cluster group
+        // Points get added to the cluster group instead of directly to the map
+        var group = L.markerClusterGroup({
+                maxClusterRadius: 50,
+                disableClusteringAtZoom: 11,
+                spiderfyOnMaxZoom: false
+                });
+
         // Loop through markers and place them on map
         markers.forEach(function(marker) {
-            L.marker([marker.lat, marker.lon])
-                .addTo(map)
-                .bindPopup(marker.name);
+            group.addLayer(L.marker([marker.lat, marker.lon]).bindPopup(marker.name));
         });
+
+        // Add cluster group with points to the map
+        map.addLayer(group);
     </script>
     </div>
 {% endblock %}
