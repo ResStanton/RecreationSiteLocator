@@ -9,7 +9,7 @@ from database import Database, CONNECTION_STRING
 app = flask.Flask("Recreation Site Locator")
 
 # Setup database connection
-db = Database("mongodb://localhost:27017/", "USFS_recreation_opportunities", "locations")
+db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
 
 
 # Create basic home page
