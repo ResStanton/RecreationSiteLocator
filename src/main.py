@@ -68,6 +68,13 @@ def location():
     print(data)
     return "YOU CLICKED THE POINT"
 
+
+@app.route('/location', methods=['POST'])
+def location():
+    data = flask.request.json
+    print(data)
+    return "YOU CLICKED THE POINT"
+
 # Run app in debug mode
 if __name__ == "__main__":
     app.run(debug=True)
