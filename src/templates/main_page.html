@@ -73,37 +73,36 @@
                     }
                 });
             }
-
             
-        // Initialize the map centered on USA
-       var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
+            // Initialize the map centered on USA
+            var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
 
-       // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
 
-        // Get the markers from Flask
-        var markers = {{ markers|tojson }};
+            // Get the markers from Flask
+            var markers = {{ markers|tojson }};
 
-        // Create point cluster group
-        // Points get added to the cluster group instead of directly to the map
-        var group = L.markerClusterGroup({
-                maxClusterRadius: 50,
-                disableClusteringAtZoom: 11,
-                spiderfyOnMaxZoom: false
-                });
+            // Create point cluster group
+            // Points get added to the cluster group instead of directly to the map
+            var group = L.markerClusterGroup({
+                    maxClusterRadius: 50,
+                    disableClusteringAtZoom: 11,
+                    spiderfyOnMaxZoom: false
+                    });
 
-        // Loop through markers and place them on map
-        markers.forEach(function(marker) {
-            location = L.marker([marker.lat, marker.lon])
-            location.bindPopup(marker.name)
-            location.on('click', onClick)
-            group.addLayer(location);
-        });
+            // Loop through markers and place them on map
+            markers.forEach(function(marker) {
+                point = L.marker([marker.lat, marker.lon])
+                point.bindPopup(marker.name)
+                point.on('click', onClick)
+                group.addLayer(point);
+            });
 
-        // Add cluster group with points to the map
-        map.addLayer(group);
-    </script>
-
+            // Add cluster group with points to the map
+            map.addLayer(group);
+        </script>
+    </div>
 {% endblock %}

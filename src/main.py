@@ -58,7 +58,7 @@ def home_page():
         search_input=search_input,
         search_types=search_types,
         search_filters=search_filters,
-        markers=markers  # <- you’ll use this in main_page.html
+        markers=markers
     )
 
 
@@ -68,12 +68,6 @@ def location():
     print(data)
     return "YOU CLICKED THE POINT"
 
-
-@app.route('/location', methods=['POST'])
-def location():
-    data = flask.request.json
-    print(data)
-    return "YOU CLICKED THE POINT"
 
 # Run app in debug mode
 if __name__ == "__main__":
