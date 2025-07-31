@@ -9,7 +9,7 @@ from database import Database, CONNECTION_STRING
 app = flask.Flask("Recreation Site Locator")
 
 # Setup database connection
-db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
+db = Database("mongodb://localhost:27017/", "USFS_recreation_opportunities", "locations")
 
 
 # Create basic home page
@@ -64,9 +64,38 @@ def home_page():
 
 @app.route('/location', methods=['POST'])
 def location():
-    data = flask.request.json
-    print(data)
-    return "YOU CLICKED THE POINT"
+    # get data from javascript
+    raw_data = flask.request.json
+    latitude = raw_data['lat']
+    longitude = raw_data['lng']
+
+    # get location from database
+    location = db.query_latitude_longitude(latitude, longitude)
+
+    # pass only useful data back to javascript
+    properties = location["properties"]
+    location_information = {
+        "name": properties["RECAREANAME"],
+        "activity": properties["MARKERACTIVITY"],
+        "activity_group": properties["MARKERACTIVITYGROUP"],
+        "description": properties["RECAREADESCRIPTION"],
+        "hours": properties["OPERATIONAL_HOURS"],
+        "fees": properties["FEEDESCRIPTION"],
+        "restrictions": properties["RESTRICTIONS"],
+        "reservations": properties["RESERVATION_INFO"]
+        }
+    
+    # replace any missing data with notice
+    if location_information["hours"] is None:
+        location_information["hours"] = "<i>No hours listed.</i>"
+    if location_information["fees"] is None:
+        location_information["fees"] = "<i>No fee listed.</i>"
+    if location_information["restrictions"] is None:
+        location_information["restrictions"] = "<i>No restrictions listed.</i>"
+    if location_information["reservations"] is None:
+        location_information["reservations"] = "<i>No reservation requirements listed listed.</i>"
+
+    return flask.jsonify(location_information)
 
 
 # Run app in debug mode
