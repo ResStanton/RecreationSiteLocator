@@ -1,15 +1,16 @@
 # Import modules
 import flask
-from database import Database  # ✅ STEP 1: Import your DB class
 
-# Import other python files
-import database
+# Import database related items
+from database import Database, CONNECTION_STRING
+
 
 # Setup flask application
 app = flask.Flask("Recreation Site Locator")
 
-# Your MongoDB connection string
-CONNECTION_STRING = "mongodb+srv://PythonBacked:NJgAD1jRPc7j441F@cluster0.ykhbmhb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# Setup database connection
+db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
+
 
 # Create basic home page
 @app.route('/', methods=['GET', 'POST'])
@@ -34,25 +35,24 @@ def home_page():
         {"id": "Picnicking", "display": "Picnicking"},
     ]
 
-    # Mark added 7/29/25    STEP 2: Connect to DB and get markers
-    db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
+    # Get all locations from the database   
     locations = db.query_all()
-    db.close()
-
+    
+    # loop thought locations to skip broken data and only include the required data 
     markers = []
     for loc in locations:
         try:
-            coords = loc['geometry']['coordinates']  # [lon, lat]
+            coords = loc['geometry']['coordinates']  # formatted in a list as [lon, lat]
             name = loc['properties']['RECAREANAME']
             markers.append({
                 'name': name,
                 'lat': coords[1],
                 'lon': coords[0]
             })
-        except TypeError:
+        except TypeError: # if data is broken and is missing one of the felids, skip
             continue
 
-    # ✅ STEP 3: Pass markers to template
+    # Render the main page with points and search input passed in
     return flask.render_template(
         "main_page.html",
         search_input=search_input,
@@ -60,7 +60,8 @@ def home_page():
         search_filters=search_filters,
         markers=markers  # <- you’ll use this in main_page.html
     )
-    # End of Mark's Code -------------------------------------------
+
 # Run app in debug mode
 if __name__ == "__main__":
     app.run(debug=True)
+    db.close() # by closing the database here, it should close after flask closes

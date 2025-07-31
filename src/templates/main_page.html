@@ -65,19 +65,18 @@
 
        // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-    // Get the markers from Flask
-    var markers = {{ markers|tojson }};
+        // Get the markers from Flask
+        var markers = {{ markers|tojson }};
 
-    // Loop through markers and place them on map
-    markers.forEach(function(marker) {
-        L.marker([marker.lat, marker.lon])
-            .addTo(map)
-            .bindPopup(marker.name);
-    });
-        // End of Mark's Code ------------------------------------------------
-        </script>
+        // Loop through markers and place them on map
+        markers.forEach(function(marker) {
+            L.marker([marker.lat, marker.lon])
+                .addTo(map)
+                .bindPopup(marker.name);
+        });
+    </script>
     </div>
 {% endblock %}
