@@ -57,17 +57,27 @@
     <!-- The area for the interactive map -->
     <div id="mapArea">
         <div id="map"></div>
-        <script>
-            // Configure and setup map
-            var map = L.map('map').setView([39, -105.5], 8);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map)
 
-            // Add a dummy point (marker)
-            var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
-            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
+<!-- Map Container -->
+    <script>    
+        // Initialize the map centered on USA
+       var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
+
+       // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Get the markers from Flask
+    var markers = {{ markers|tojson }};
+
+    // Loop through markers and place them on map
+    markers.forEach(function(marker) {
+        L.marker([marker.lat, marker.lon])
+            .addTo(map)
+            .bindPopup(marker.name);
+    });
+        // End of Mark's Code ------------------------------------------------
         </script>
     </div>
 {% endblock %}
