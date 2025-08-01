@@ -8,7 +8,7 @@ import database
 app = flask.Flask("Recreation Site Locator")
 
 # create basic home page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home_page():
     # The search input dictionary that is passed to the HTML to set the search bar to what was searched
     search_input = {
@@ -16,7 +16,13 @@ def home_page():
         "search_type": "", 
         "query": ""
         }
-    
+  
+    search_input["search_filter"]=flask.request.args.get("filter_type", "")
+    search_input["search_type"]=flask.request.args.get("search_type", "")
+    search_input["query"]=flask.request.args.get("search", "")
+    print(search_input)
+        
+        # Pass the results
     # The types of searches for the dropdown 
     search_types = [
         {"id": "Name", "display": "Name"},
