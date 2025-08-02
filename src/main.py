@@ -58,8 +58,45 @@ def home_page():
         search_input=search_input,
         search_types=search_types,
         search_filters=search_filters,
-        markers=markers  # <- you’ll use this in main_page.html
+        markers=markers
     )
+
+
+@app.route('/location', methods=['POST'])
+def location():
+    # get data from javascript
+    raw_data = flask.request.json
+    latitude = raw_data['lat']
+    longitude = raw_data['lng']
+
+    # get location from database
+    location = db.query_latitude_longitude(latitude, longitude)
+
+    # pass only useful data back to javascript
+    properties = location["properties"]
+    location_information = {
+        "name": properties["RECAREANAME"],
+        "activity": properties["MARKERACTIVITY"],
+        "activity_group": properties["MARKERACTIVITYGROUP"],
+        "description": properties["RECAREADESCRIPTION"],
+        "hours": properties["OPERATIONAL_HOURS"],
+        "fees": properties["FEEDESCRIPTION"],
+        "restrictions": properties["RESTRICTIONS"],
+        "reservations": properties["RESERVATION_INFO"]
+        }
+    
+    # replace any missing data with notice
+    if location_information["hours"] is None:
+        location_information["hours"] = "<i>No hours listed.</i>"
+    if location_information["fees"] is None:
+        location_information["fees"] = "<i>No fee listed.</i>"
+    if location_information["restrictions"] is None:
+        location_information["restrictions"] = "<i>No restrictions listed.</i>"
+    if location_information["reservations"] is None:
+        location_information["reservations"] = "<i>No reservation requirements listed.</i>"
+
+    return flask.jsonify(location_information)
+
 
 # Run app in debug mode
 if __name__ == "__main__":

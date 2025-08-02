@@ -24,6 +24,10 @@ class Database:
     """Return a list of all the data in the database collection"""
     def query_all(self) -> list:
         return self.collection.find().to_list()
+    
+    def query_latitude_longitude(self, latitude: float, longitude: float):
+        return self.collection.find_one({"geometry.coordinates": [longitude, latitude]})
+        
     def close(self):
         self._client.close()
     
