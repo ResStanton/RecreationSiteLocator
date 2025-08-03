@@ -10,23 +10,26 @@
    
     <!-- The area for the description of a location  -->
     <div id="description"> 
-      <p><strong>Name:</strong></p> 
-        <p><i>Recreation areas.</i></p>
+      <h3>Name:</h3> 
+        <p id="desc_name"><i>Recreation areas.</i></p>
 
-        <p><strong>Activity:</strong></p>
-        <p><i>Activities available at selected location.</i></p>
+        <h3>Activity:</h3>
+        <p id="desc_activity"><i>Activities available at selected location.</i></p>
 
-        <p><strong>Description:</strong></p>
-        <p><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
+        <h3>Description:</h3>
+        <p id="desc_desc"><i>Camping</i><br><i>Hiking</i><br><i>Fishing</i><br><i>Boat Rentals</i></p>
 
-        <p><strong>Hours:</strong></p>
-        <p><i>Staffed operating hours.</i></p>
+        <h3>Hours:</h3>
+        <p id="desc_hours"><i>Staffed operating hours.</i></p>
 
-        <p><strong>Fees:</strong></p>
-        <p><i> Fees with selected activities and services.</i></p>
+        <h3>Fees:</h3>
+        <p id="desc_fees"><i> Fees with selected activities and services.</i></p>
 
-        <p><strong>Restrictions:</strong></p>
-        <p><i>Length of stay, size of water crafts, etc.</i></p>
+        <h3>Restrictions:</h3>
+        <p id="desc_restrict"><i>Length of stay, size of water crafts, etc.</i></p>
+        
+        <h3>Reservations:</h3>
+        <p id="desc_reserve"><i>If reservations are needed and how to get them.</i></p>
     </div>
 
  <!-- The Search Bar using a from with a the post method so it can be passed into Python-->
@@ -58,16 +61,70 @@
     <div id="mapArea">
         <div id="map"></div>
         <script>
-            // Configure and setup map
-            var map = L.map('map').setView([39, -105.5], 8);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map)
+            // point click function
+            function onClick(ev) {
+                $.ajax({
+                    url: '/location',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(ev.latlng),
+                    success: function(response) {
+                        // update name
+                        document.getElementById("desc_name").innerHTML = response.name;
 
-            // Add a dummy point (marker)
-            var dummyMarker = L.marker([39.7392, -104.9903]).addTo(map);
-            dummyMarker.bindPopup("<b>Central USA</b><br>Denver, CO").openPopup();
+                        // update activity type and group
+                        document.getElementById("desc_activity").innerHTML = response.activity_group + ": " + response.activity;
+
+                        // update the description
+                        document.getElementById("desc_desc").innerHTML = response.description
+
+                        // update hours
+                        document.getElementById("desc_hours").innerHTML = response.hours
+
+                        // update fees
+                        document.getElementById("desc_fees").innerHTML = response.fees
+
+                        // update restrictions
+                        document.getElementById("desc_restrict").innerHTML = response.restrictions
+
+                        // update reservations
+                        document.getElementById("desc_reserve").innerHTML = response.reservations
+                    },
+                    error: function(error) {
+                    console.log(error);
+                    }
+                });
+            }
+            
+            // Initialize the map centered on USA
+            var map = L.map('map').setView([39.8283, -98.5795], 4);  // lat/lon center of U.S.
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Get the markers from Flask
+            var markers = {{ markers|tojson }};
+
+            // Create point cluster group
+            // Points get added to the cluster group instead of directly to the map
+            var group = L.markerClusterGroup({
+                    maxClusterRadius: 50,
+                    disableClusteringAtZoom: 11,
+                    spiderfyOnMaxZoom: false
+                    });
+
+            // Loop through markers and place them on map
+            markers.forEach(function(marker) {
+                point = L.marker([marker.lat, marker.lon])
+                point.bindPopup(marker.name)
+                point.on('click', onClick)
+                group.addLayer(point);
+            });
+
+            // Add cluster group with points to the map
+            map.addLayer(group);
         </script>
     </div>
 {% endblock %}
