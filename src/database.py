@@ -25,6 +25,7 @@ class Database:
     def query_all(self) -> list:
         return self.collection.find().to_list()
     
+    """Return a one location based of of its geospacial location"""
     def query_latitude_longitude(self, latitude: float, longitude: float):
         return self.collection.find_one({"geometry.coordinates": [longitude, latitude]})
         
