@@ -13,15 +13,21 @@ db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
 
 
 # Create basic home page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home_page():
     # Search bar setup
     search_input = {
         "search_filter": "", 
         "search_type": "", 
         "query": ""
-    }
+        }
+  
+    search_input["search_filter"]=flask.request.args.get("filter_type", "")
+    search_input["search_type"]=flask.request.args.get("search_type", "")
+    search_input["query"]=flask.request.args.get("search", "")
+    print(search_input)
 
+    # The types of searches for the dropdown 
     # Dropdown options
     search_types = [
         {"id": "Name", "display": "Name"},
