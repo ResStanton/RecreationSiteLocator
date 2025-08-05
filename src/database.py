@@ -55,6 +55,7 @@ if __name__ == "__main__":
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name oif each location
+    location_types.remove(None)
     print("printing all points")
     start_time = time.time()
     for location_type in location_types:
