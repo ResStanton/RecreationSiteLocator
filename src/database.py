@@ -28,6 +28,9 @@ class Database:
     """Return a one location based of of its geospacial location"""
     def query_latitude_longitude(self, latitude: float, longitude: float):
         return self.collection.find_one({"geometry.coordinates": [longitude, latitude]})
+    
+    def get_unique_location_types(self):
+        return self.collection.distinct("properties.MARKERACTIVITYGROUP")
         
     def close(self):
         self._client.close()
@@ -48,12 +51,12 @@ if __name__ == "__main__":
     # query for all locations
     print("querying all locations")
     start_time = time.time()
-    locations = database.query_all()
+    location_types = database.get_unique_location_types()
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name oif each location
     print("printing all points")
     start_time = time.time()
-    for location in locations:
-        print(location['properties']['RECAREANAME'])
+    for location_type in location_types:
+        print(location_type)
     print(f"Operation took: {time.time()-start_time} Seconds")
