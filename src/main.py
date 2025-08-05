@@ -34,12 +34,14 @@ def home_page():
         {"id": "Address", "display": "Address"},
     ]
 
-    search_filters = [
-        {"id": "Camping & Cabins", "display": "Camping & Cabins"},
-        {"id": "Trailhead", "display": "Trail head"},
-        {"id": "Scenic Driving", "display": "Scenic Driving"},
-        {"id": "Picnicking", "display": "Picnicking"},
-    ]
+    # Populate filters dropdown
+    location_types = db.get_unique_location_types()
+    location_types.remove(None)  # Remove the location type for now
+    search_filters = []
+
+    # loop through all location types for to create the filter
+    for location_type in location_types:
+        search_filters.append({"id": location_type, "display": location_type})
 
     # Get all locations from the database   
     locations = db.query_all()
