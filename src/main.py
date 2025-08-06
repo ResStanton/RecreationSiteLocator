@@ -42,9 +42,11 @@ def home_page():
     # loop through all location types for to create the filter
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
-
-    # Get all locations from the database   
-    locations = db.query_all()
+    if search_input["search_filter"] != "":
+        locations = db.query_by_activity_type(search_input["search_filter"])
+    else:
+        # Get all locations from the database   
+        locations = db.query_all()
     
     # loop thought locations to skip broken data and only include the required data 
     markers = []
