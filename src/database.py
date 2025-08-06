@@ -31,7 +31,10 @@ class Database:
     
     def get_unique_location_types(self):
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")
-        
+    
+    def query_by_activity_type(self, activity_type: str) -> list:
+	    return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
+    
     def close(self):
         self._client.close()
     
@@ -51,11 +54,10 @@ if __name__ == "__main__":
     # query for all locations
     print("querying all locations")
     start_time = time.time()
-    location_types = database.get_unique_location_types()
+    location_types = database.query_by_activity_type("Picnicking")
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name oif each location
-    location_types.remove(None)
     print("printing all points")
     start_time = time.time()
     for location_type in location_types:
