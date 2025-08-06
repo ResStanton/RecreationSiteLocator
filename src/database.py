@@ -20,7 +20,7 @@ class Database:
         # The collection is left public in case it needs to be accessed for more advanced queries then those built in
         self.collection = self._database[collection_name]
 
-
+    # Code for queries Session8 - allowing for targeted activity search within the search bar. 
     """Return a list of all the data in the database collection"""
     def query_all(self) -> list:
         return self.collection.find().to_list()
@@ -52,6 +52,7 @@ if __name__ == "__main__":
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # query for all locations
+    # Mark's code for querying the Database for Picnicking type.
     print("querying all locations")
     start_time = time.time()
     location_types = database.query_by_activity_type("Picnicking")
