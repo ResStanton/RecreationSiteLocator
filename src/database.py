@@ -38,6 +38,12 @@ class Database:
     def query_by_activity_type(self, activity_type: str) -> list:
         return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
     
+    def query_name_and_activity_type(self, name: str, activity_type: str) -> list:
+        return self.collection.find({
+            "properties.MARKERACTIVITYGROUP": activity_type,
+            "properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}
+            })
+    
     def close(self):
         self._client.close()
     
@@ -60,7 +66,7 @@ if __name__ == "__main__":
     # query for all locations
     print("Querying all locations")
     start_time = time.time()
-    location_types = database.query_by_name("yellow")
+    location_types = database.query_name_and_activity_type("yellow", "Nature Viewing")
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name of each location
