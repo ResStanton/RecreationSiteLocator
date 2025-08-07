@@ -30,8 +30,9 @@ class Database:
     def get_unique_location_types(self):
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")
     
-    def query_by_marker_group(self, activity_group: str) -> list:
-        return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_group}))    
+    def query_by_name(self, name: str):
+        return list(self.collection.find({"properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}}))
+   
     # This query checks if 'activity_type' exists in the ACTIVITY array
     def query_by_activity_type(self, activity_type: str) -> list:
 	    return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
@@ -54,21 +55,16 @@ if __name__ == "__main__":
         # Simulate dropdown selection
     selected_activity = "Hiking"  # Change this to test other activities or leave empty
 
-    if selected_activity:
-        print(f"Filtering by activity type: {selected_activity}")
-        start_time = time.time()
-        locations = database.query_by_activity_type(selected_activity)
-        print(f"Filtered query took: {time.time() - start_time:.2f} seconds")
-    else:
+   
     # query for all locations
-        print("Querying all locations")
-        start_time = time.time()
-        location_types = database.query_by_activity_type("Picnicking")
-        print(f"Operation took: {time.time()-start_time} Seconds")
+    print("Querying all locations")
+    start_time = time.time()
+    location_types = database.query_by_name("yellow")
+    print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name of each location
     print("printing all points")
     start_time = time.time()
     for location_type in location_types:
-        print(location_type)
+        print(location_type["properties"]["RECAREANAME"])
     print(f"Operation took: {time.time()-start_time} Seconds")
