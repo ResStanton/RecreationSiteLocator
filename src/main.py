@@ -44,7 +44,10 @@ def home_page():
         search_filters.append({"id": location_type, "display": location_type})
 
     # Get all locations from the database   
-    locations = db.query_all()
+    if search_input["query"] !=  "":
+        locations = db.query_by_name(search_input["query"])
+    else:
+        locations = db.query_all()
     
     # loop thought locations to skip broken data and only include the required data 
     markers = []
