@@ -43,10 +43,13 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
-    # Get all locations from the database   
     if search_input["query"] !=  "":
         locations = db.query_by_name(search_input["query"])
+    elif search_input["search_filter"] != "":
+        # Code for searching by activity selected in search bar
+        locations = db.query_by_activity_type(search_input["search_filter"])
     else:
+        # Get all locations from the database
         locations = db.query_all()
     
     # loop thought locations to skip broken data and only include the required data 

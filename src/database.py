@@ -19,6 +19,7 @@ class Database:
 
         # The collection is left public in case it needs to be accessed for more advanced queries then those built in
         self.collection = self._database[collection_name]
+
     """Return a list of all the data in the database collection"""
     def query_all(self) -> list:
         return self.collection.find().to_list()
