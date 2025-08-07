@@ -43,7 +43,8 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
-    # Get all locations from the database   
+    # Get all locations from the database 
+    # If the search input is not empty, filter by name  
     if search_input["query"] !=  "":
         locations = db.query_by_name(search_input["query"])
     else:
