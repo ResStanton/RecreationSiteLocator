@@ -19,8 +19,6 @@ class Database:
 
         # The collection is left public in case it needs to be accessed for more advanced queries then those built in
         self.collection = self._database[collection_name]
-
-
     """Return a list of all the data in the database collection"""
     def query_all(self) -> list:
         return self.collection.find().to_list()
@@ -32,13 +30,16 @@ class Database:
     def get_unique_location_types(self):
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")
     
+    def query_by_name(self, name: str):
+        return list(self.collection.find({"properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}}))
+   
+    # This query checks if 'activity_type' exists in the ACTIVITY array
     def query_by_activity_type(self, activity_type: str) -> list:
 	    return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
     
     def close(self):
         self._client.close()
     
-
 
 # Run the file for testing the database
 if __name__ == "__main__":
@@ -51,15 +52,19 @@ if __name__ == "__main__":
     database = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
     print(f"Operation took: {time.time()-start_time} Seconds")
 
+        # Simulate dropdown selection
+    selected_activity = "Hiking"  # Change this to test other activities or leave empty
+
+   
     # query for all locations
-    print("querying all locations")
+    print("Querying all locations")
     start_time = time.time()
-    location_types = database.query_by_activity_type("Picnicking")
+    location_types = database.query_by_name("yellow")
     print(f"Operation took: {time.time()-start_time} Seconds")
 
-    # print the name oif each location
+    # print the name of each location
     print("printing all points")
     start_time = time.time()
     for location_type in location_types:
-        print(location_type)
+        print(location_type["properties"]["RECAREANAME"])
     print(f"Operation took: {time.time()-start_time} Seconds")
