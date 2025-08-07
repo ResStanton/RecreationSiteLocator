@@ -36,7 +36,7 @@ class Database:
    
     # This query checks if 'activity_type' exists in the ACTIVITY array
     def query_by_activity_type(self, activity_type: str) -> list:
-	    return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
+        return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
     
     def close(self):
         self._client.close()
