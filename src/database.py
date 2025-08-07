@@ -28,6 +28,7 @@ class Database:
     def query_latitude_longitude(self, latitude: float, longitude: float):
         return self.collection.find_one({"geometry.coordinates": [longitude, latitude]})
     
+    """Return a list of all unique location types"""
     def get_unique_location_types(self):
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")
     
@@ -38,11 +39,12 @@ class Database:
     def query_by_activity_type(self, activity_type: str) -> list:
         return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
     
+    """Return a list of locations that have the same given activity type and match the given search name"""
     def query_name_and_activity_type(self, name: str, activity_type: str) -> list:
         return self.collection.find({
             "properties.MARKERACTIVITYGROUP": activity_type,
             "properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}
-            })
+            }).to_list()
     
     def close(self):
         self._client.close()
