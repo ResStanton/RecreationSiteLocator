@@ -1,6 +1,6 @@
 /* General reset */
 * {
-  margin: .5;
+  margin: .4;
   padding: 0;
   box-sizing: border-box;
 }
@@ -8,7 +8,7 @@
 /* Body */
 body {
   font-family: "Times New Roman", times serif;
-  background-color: rgb(8, 128, 62);
+  background-color: #faf5ed;
   color: black;
   line-height: 1.1;
   padding: 8px;
@@ -46,13 +46,3 @@ body {
   border: 1px #ccc;
   box-sizing: border-box;
 } 
-/* <style>
-  #searchBar input[type="text"] {
-    background-color: pink;
-    width: 600px;         /* Adjust this value as needed */
-  /*  padding: 10px;
-    font-size: 20px;
-    border: 1px #ccc;
-    box-sizing: border-box;
-  }
-</style> */
