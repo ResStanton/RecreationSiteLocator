@@ -7,10 +7,10 @@
 
 /* Body */
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", times serif;
   background-color: #ecf2fa;
   color: black;
-  line-height: 1.5;
+  line-height: 1.1;
   padding: 8px;
   text-align: left
 }
@@ -20,7 +20,7 @@ body {
     top: 1;
     bottom: 1;
     width: 75%;
-    height: 94vh;
+    height: 90vh;
 }
 
 #mapArea{
@@ -31,15 +31,18 @@ body {
 
 #description{
   height: 98vh;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   float:left;
   background-color: #faf5ed;
-  padding: 10px;
-  width: 24%
+  padding: 5px;
+  width: 25%
 }
 
 #searchBar{
   background-color: #faf5ed;
-  width: 100%;
+  width: 180%;
   padding: 10px;
+  font-size: 20px;
+  border: 10px #ccc;
+  box-sizing: border-box;
 }
