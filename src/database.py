@@ -66,12 +66,14 @@ if __name__ == "__main__":
 
    
     # query for all locations
+    # query by name and Yellow used for testing
     print("Querying all locations")
     start_time = time.time()
     location_types = database.query_name_and_activity_type("yellow", "Nature Viewing")
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name of each location
+    # print the location of each by name
     print("printing all points")
     start_time = time.time()
     for location_type in location_types:

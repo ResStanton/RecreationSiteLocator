@@ -43,6 +43,7 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
+
     # Determine what query to use 
     if search_input["query"] and search_input["search_filter"]:
         # Search by name while filtering by activity type
