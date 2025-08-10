@@ -69,8 +69,8 @@ def home_page():
             })
         except TypeError: # if data is broken and is missing one of the felids, skip
             continue
-        except KeyError: # Skip any broken entries for now 
-             print(loc['properties']['RECAREANAME'])  
+        except KeyError: # Skip any broken enteries for now
+            print(loc['properties']['RECAREANAME'])
 
     # Render the main page with points and search input passed in
     return flask.render_template(
