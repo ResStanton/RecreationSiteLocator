@@ -31,10 +31,10 @@ body {
 
 #description{
   height: 98vh;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
   float:left;
   background-color: #faf5ed;
-  padding: 5px;
+  padding-right: 10px;
   width: 25%
 }
 
