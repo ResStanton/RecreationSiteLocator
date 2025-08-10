@@ -22,10 +22,10 @@ def home_page():
         "query": ""
         }
   
+    # Populate search input
     search_input["search_filter"]=flask.request.args.get("filter_type", "")
     search_input["search_type"]=flask.request.args.get("search_type", "")
     search_input["query"]=flask.request.args.get("search", "")
-    print(search_input)
 
     # The types of searches for the dropdown 
     # Dropdown options
@@ -43,11 +43,18 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
-    # Get all locations from the database 
-    # If the search input is not empty, filter by name  
-    if search_input["query"] !=  "":
+
+    # Determine what query to use 
+    if search_input["query"] and search_input["search_filter"]:
+        # Search by name while filtering by activity type
+        locations = db.query_name_and_activity_type(search_input["query"], search_input["search_filter"])
+    elif search_input["query"]:
         locations = db.query_by_name(search_input["query"])
+    elif search_input["search_filter"]:
+        # Code for searching by activity selected in search bar
+        locations = db.query_by_activity_type(search_input["search_filter"])
     else:
+        # Get all locations from the database
         locations = db.query_all()
     
     # loop thought locations to skip broken data and only include the required data 
@@ -63,6 +70,8 @@ def home_page():
             })
         except TypeError: # if data is broken and is missing one of the felids, skip
             continue
+        except KeyError: # Skip any broken enteries for now
+            print(loc['properties']['RECAREANAME'])
 
     # Render the main page with points and search input passed in
     return flask.render_template(

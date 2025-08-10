@@ -1,16 +1,16 @@
 /* General reset */
 * {
-  margin: .5;
+  margin: .4;
   padding: 0;
   box-sizing: border-box;
 }
 
 /* Body */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ecf2fa;
+  font-family: "Times New Roman", times serif;
+  background-color: #faf5ed;
   color: black;
-  line-height: 1.5;
+  line-height: 1.1;
   padding: 8px;
   text-align: left
 }
@@ -19,8 +19,8 @@ body {
     position: absolute;
     top: 1;
     bottom: 1;
-    width: 75%;
-    height: 94vh;
+    width: 73.2%;
+    height: 90vh;
 }
 
 #mapArea{
@@ -34,12 +34,15 @@ body {
   overflow-y: scroll;
   float:left;
   background-color: #faf5ed;
-  padding: 10px;
-  width: 24%
+  padding-right: 10px;
+  width: 25%
 }
 
-#searchBar{
+  #searchBar{
   background-color: #faf5ed;
   width: 100%;
   padding: 10px;
-}
+  font-size: 20px;
+  border: 1px #ccc;
+  box-sizing: border-box;
+} 
