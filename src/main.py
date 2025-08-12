@@ -3,6 +3,7 @@ import flask
 
 # Import database related items
 from database import Database, CONNECTION_STRING
+import geolocate
 
 
 # Setup flask application
@@ -43,13 +44,23 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
-
-    # Determine what query to use 
-    if search_input["query"] and search_input["search_filter"]:
-        # Search by name while filtering by activity type
-        locations = db.query_name_and_activity_type(search_input["query"], search_input["search_filter"])
-    elif search_input["query"]:
-        locations = db.query_by_name(search_input["query"])
+    if search_input["search_type"] == "Address":
+        try:
+            address_location = geolocate.get_location_from_address(search_input["query"])
+        except AttributeError:
+            pass
+        except TimeoutError:
+            pass
+        else:
+            print(address_location)
+        locations = db.query_all()
+    elif search_input["search_type"] == "Name":
+        # Determine what query to use 
+        if search_input["query"] and search_input["search_filter"]:
+            # Search by name while filtering by activity type
+            locations = db.query_name_and_activity_type(search_input["query"], search_input["search_filter"])
+        elif search_input["query"]:
+            locations = db.query_by_name(search_input["query"])
     elif search_input["search_filter"]:
         # Code for searching by activity selected in search bar
         locations = db.query_by_activity_type(search_input["search_filter"])
