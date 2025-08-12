@@ -13,12 +13,44 @@ app = flask.Flask("Recreation Site Locator")
 db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
 
 
+def get_data_from_search(search_input):
+    locations = []
+    error = ""
+    # query the data according to the search
+    if search_input["query"] and search_input["search_filter"]:   # query for combined data
+        # use query according to search type
+        if search_input["search_type"] == "Address":
+            error = "Searching for an address with a filter is currently not supported"
+            # TODO make a combined query of the address search
+        else: # search_type == "name"
+            # Search by name while filtering by activity type
+            locations = db.query_name_and_activity_type(search_input["query"], search_input["search_filter"])
+    elif search_input["query"]:  # query for only the search text
+        # use query according to search type
+        if search_input["search_type"] == "Address":
+            try:
+                address_location = geolocate.get_location_from_address(search_input["query"])
+            except AttributeError:
+                error = r"That Address Could Not Be Found.\nMake sure yoy spelled everything correctly and try again.\nAlso try removing the city from the address"
+            except TimeoutError:
+                error = r"Request Timed Out.\nPlease try again later."
+            else:
+                error = str(address_location)
+        else:  # search_type == "name"
+            locations = db.query_by_name(search_input["query"])
+    elif search_input["search_filter"]:  # query for only the filter
+        # Code for searching by activity selected in search bar
+        locations = db.query_by_activity_type(search_input["search_filter"])
+    else:  # No query of filter is given, query all data
+        # Get all locations from the database
+        locations = db.query_all()
+
+    return locations, error
+
+
 # Create basic home page
 @app.route('/')
 def home_page():
-    # create error variable in case an error needs to be displayed 
-    error = ""
-
     # Search bar setup
     search_input = {
         "search_filter": "", 
@@ -47,30 +79,9 @@ def home_page():
     for location_type in location_types:
         search_filters.append({"id": location_type, "display": location_type})
 
-    if search_input["search_type"] == "Address":
-        try:
-            address_location = geolocate.get_location_from_address(search_input["query"])
-        except AttributeError:
-            error = r"That Address Could Not Be Found.\nMake sure yoy spelled everything correctly and try again.\nAlso try removing the city from the address"
-        except TimeoutError:
-            error = r"Request Timed Out.\nPlease try again later."
-        else:
-            print(address_location)
-        locations = db.query_all()
-    else:
-        # Determine what query to use 
-        if search_input["query"] and search_input["search_filter"]:
-            # Search by name while filtering by activity type
-            locations = db.query_name_and_activity_type(search_input["query"], search_input["search_filter"])
-        elif search_input["query"]:
-            locations = db.query_by_name(search_input["query"])
-        elif search_input["search_filter"]:
-            # Code for searching by activity selected in search bar
-            locations = db.query_by_activity_type(search_input["search_filter"])
-        else:
-            # Get all locations from the database
-            locations = db.query_all()
-    
+    # query the data according to the search
+    locations, error = get_data_from_search(search_input)
+
     # loop thought locations to skip broken data and only include the required data 
     markers = []
     for loc in locations:
