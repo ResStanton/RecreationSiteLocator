@@ -130,7 +130,7 @@ def location():
         "name": properties["RECAREANAME"],
         "activity": properties["MARKERACTIVITY"],
         "activity_group": properties["MARKERACTIVITYGROUP"],
-        "description": properties["RECAREADESCRIPTION"],
+        "description": properties["RECAREADESCRIPTION"].replace(".css", ""),
         "hours": properties["OPERATIONAL_HOURS"],
         "fees": properties["FEEDESCRIPTION"],
         "restrictions": properties["RESTRICTIONS"],
