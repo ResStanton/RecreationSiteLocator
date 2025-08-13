@@ -7,7 +7,15 @@
 {% endmacro %}
 
 {%block body%}
-   
+    <!-- If an error is given they display an javascript alert -->
+    <script>
+        var error_message = "{{error}}";
+
+        if (error_message) {
+            alert(error_message);
+        }
+    </script>
+
     <!-- The area for the description of a location  -->
     <div id="description"> 
       <h3>Name:</h3> 
