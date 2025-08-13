@@ -14,8 +14,10 @@ db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
 
 
 def get_data_from_search(search_input):
+    # setup variables
     locations = []
     error = ""
+
     # query the data according to the search
     if search_input["query"] and search_input["search_filter"]:   # query for combined data
         # use query according to search type
@@ -28,14 +30,16 @@ def get_data_from_search(search_input):
     elif search_input["query"]:  # query for only the search text
         # use query according to search type
         if search_input["search_type"] == "Address":
+            # try and get coordinates from the address entered in the search bar 
             try:
                 address_location = geolocate.get_location_from_address(search_input["query"])
-            except AttributeError:
+            except AttributeError:  # The address could not be found
                 error = r"That Address Could Not Be Found.\nMake sure yoy spelled everything correctly and try again.\nAlso try removing the city from the address"
-            except TimeoutError:
+            except TimeoutError:  # The lookup timed out
                 error = r"Request Timed Out.\nPlease try again later."
             else:
-                error = str(address_location)
+                error = f"longitude: {address_location["longitude"]}, latitude: {address_location["latitude"]}"
+                # TODO SEARCH BY ADDRESS QUERY GOES HERE
         else:  # search_type == "name"
             locations = db.query_by_name(search_input["query"])
     elif search_input["search_filter"]:  # query for only the filter
@@ -45,6 +49,7 @@ def get_data_from_search(search_input):
         # Get all locations from the database
         locations = db.query_all()
 
+    # return locations and any error messages
     return locations, error
 
 
