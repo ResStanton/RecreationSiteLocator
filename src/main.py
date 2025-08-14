@@ -77,7 +77,6 @@ def home_page():
 
     # Populate filters dropdown
     location_types = db.get_unique_location_types()
-    location_types.remove(None)  # Remove the location type for now
     search_filters = []
 
     # loop through all location types for to create the filter
@@ -146,6 +145,8 @@ def location():
         location_information["restrictions"] = "<i>No restrictions listed.</i>"
     if location_information["reservations"] is None:
         location_information["reservations"] = "<i>No reservation requirements listed.</i>"
+    if location_information["activity"] is None:
+        location_information["activity"] = ""
 
     return flask.jsonify(location_information)
 
