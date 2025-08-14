@@ -22,16 +22,16 @@ class Database:
         # The collection is left public in case it needs to be accessed for more advanced queries then those built in
         self.collection = self._database[collection_name]
 
-    """Return a list of all the data in the database collection"""
     def query_all(self) -> list:
+        """Return a list of all the data in the database collection"""
         return self.collection.find().to_list()
     
-    """Get a location bases on its _id from the database"""
     def query_id(self, location_id: str):
+        """Get a location bases on its _id from the database"""
         return self.collection.find_one({"_id": ObjectId(location_id)})
 
-    """Return a list of all unique location types"""
     def get_unique_location_types(self):
+        """Return a list of all unique location types"""
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")
     
     def query_by_name(self, name: str):
@@ -41,8 +41,8 @@ class Database:
     def query_by_activity_type(self, activity_type: str) -> list:
         return list(self.collection.find({"properties.MARKERACTIVITYGROUP": activity_type}))
     
-    """Return a list of locations that have the same given activity type and match the given search name"""
     def query_name_and_activity_type(self, name: str, activity_type: str) -> list:
+        """Return a list of locations that have the same given activity type and match the given search name"""
         return self.collection.find({
             "properties.MARKERACTIVITYGROUP": activity_type,
             "properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}
