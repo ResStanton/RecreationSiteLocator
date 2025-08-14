@@ -46,6 +46,24 @@ class Database:
             "properties.RECAREANAME": {"$regex":f"{name}*", "$options": "i"}
             }).to_list()
     
+       # This query search by using the coordinates for sites near that location - Session 9
+    def query_near_location(self,longitude, latitude, max_distance=20000):
+        return self.collection.find({ 
+   'geometry': { 
+     '$near': { 
+       '$geometry': { 
+        ' type': "Point", 
+         'coordinates': [longitude, latitude] 
+       }, 
+       '$maxDistance': max_distance, 
+       '$minDistance': 0 
+     } 
+    } 
+} )
+ 
+    
+ 
+    
     def close(self):
         self._client.close()
     
@@ -69,7 +87,7 @@ if __name__ == "__main__":
     # query by name and Yellow used for testing
     print("Querying all locations")
     start_time = time.time()
-    location_types = database.query_name_and_activity_type("yellow", "Nature Viewing")
+    location_types = database.query_near_location(-106.4322, 38.7474)
     print(f"Operation took: {time.time()-start_time} Seconds")
 
     # print the name of each location
