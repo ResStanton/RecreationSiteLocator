@@ -1,4 +1,6 @@
 import pymongo
+from bson.objectid import ObjectId
+
 USERNAME = 'PythonBacked'
 PASSWORD = 'NJgAD1jRPc7j441F'
 
@@ -24,10 +26,10 @@ class Database:
     def query_all(self) -> list:
         return self.collection.find().to_list()
     
-    """Return a one location based of of its geospacial location"""
-    def query_latitude_longitude(self, latitude: float, longitude: float):
-        return self.collection.find_one({"geometry.coordinates": [longitude, latitude]})
-    
+    """Get a location bases on its _id from the database"""
+    def query_id(self, location_id: str):
+        return self.collection.find_one({"_id": ObjectId(location_id)})
+
     """Return a list of all unique location types"""
     def get_unique_location_types(self):
         return self.collection.distinct("properties.MARKERACTIVITYGROUP")

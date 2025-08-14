@@ -5,7 +5,6 @@ import flask
 from database import Database, CONNECTION_STRING
 import geolocate
 
-
 # Setup flask application
 app = flask.Flask("Recreation Site Locator")
 
@@ -95,7 +94,8 @@ def home_page():
             markers.append({
                 'name': name,
                 'lat': coords[1],
-                'lon': coords[0]
+                'lon': coords[0],
+                'id': str(loc['_id'])
             })
         except TypeError: # if data is broken and is missing one of the felids, skip
             continue
@@ -117,11 +117,10 @@ def home_page():
 def location():
     # get data from javascript
     raw_data = flask.request.json
-    latitude = raw_data['lat']
-    longitude = raw_data['lng']
+    location_id = raw_data["id"]
 
     # get location from database
-    location = db.query_latitude_longitude(latitude, longitude)
+    location = db.query_id(location_id)
 
     # pass only useful data back to javascript
     properties = location["properties"]
