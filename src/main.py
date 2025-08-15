@@ -38,8 +38,8 @@ def get_data_from_search(search_input):
             except TimeoutError:  # The lookup timed out
                 error = r"Request Timed Out.\nPlease try again later."
             else:
-                error = f"longitude: {address_location["longitude"]}, latitude: {address_location["latitude"]}"
-                # TODO SEARCH BY ADDRESS QUERY GOES HERE
+                #error = f"longitude: {address_location["longitude"]}, latitude: {address_location["latitude"]}"
+                locations = db.query_near_location(address_location["longitude"], address_location["latitude"])
         else:  # search_type == "name"
             locations = db.query_by_name(search_input["query"])
     elif search_input["search_filter"]:  # query for only the filter
