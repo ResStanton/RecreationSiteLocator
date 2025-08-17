@@ -50,18 +50,17 @@ class Database:
     
        # This query search by using the coordinates for sites near that location - Session 9
     def query_near_location(self,longitude, latitude, max_distance=20000):
-        return self.collection.find({ 
-   'geometry': { 
-     '$near': { 
-       '$geometry': { 
-        ' type': "Point", 
-         'coordinates': [longitude, latitude] 
-       }, 
-       '$maxDistance': max_distance, 
-       '$minDistance': 0 
-     } 
-    } 
-} ).to_list()
+        return self.collection.find({'geometry': { 
+                                        '$near': { 
+                                        '$geometry': { 
+                                            ' type': "Point", 
+                                            'coordinates': [longitude, latitude] 
+                                        }, 
+                                        '$maxDistance': max_distance, 
+                                        '$minDistance': 0 
+                                        } 
+                                    }} 
+                                    ).to_list()
     
     def activity_type_and_query_near_location(self, longitude, latitude, activity_type, max_distance=20000):
         """Return a list of locations that have the same given activity type and are near the same location"""
