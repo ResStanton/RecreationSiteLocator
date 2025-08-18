@@ -11,7 +11,6 @@ app = flask.Flask("Recreation Site Locator")
 # Setup database connection
 db = Database(CONNECTION_STRING, "USFS_recreation_opportunities", "locations")
 
-
 def get_data_from_search(search_input):
     # setup variables
     locations = []
@@ -109,6 +108,11 @@ def home_page():
     )
 
 
+def is_missing_information(info: str):
+    """Returns true if the info given actually contains information"""
+    return not (info and info != "<br />")
+
+
 @app.route('/location', methods=['POST'])
 def location():
     # get data from javascript
@@ -132,16 +136,20 @@ def location():
         }
     
     # replace any missing data with notice
-    if location_information["hours"] is None:
-        location_information["hours"] = "<i>No hours listed.</i>"
-    if location_information["fees"] is None:
-        location_information["fees"] = "<i>No fee listed.</i>"
-    if location_information["restrictions"] is None:
-        location_information["restrictions"] = "<i>No restrictions listed.</i>"
-    if location_information["reservations"] is None:
-        location_information["reservations"] = "<i>No reservation requirements listed.</i>"
-    if location_information["activity"] is None:
+    if is_missing_information(location_information["name"]):
+        location_information["name"] = "<i>No name listed</i>"
+    if is_missing_information(location_information["activity"]):
         location_information["activity"] = ""
+    if is_missing_information(location_information["description"]):
+        location_information["description"] = "<i>No description listed</i>"
+    if is_missing_information(location_information["hours"]):
+        location_information["hours"] = "<i>No hours listed.</i>"
+    if is_missing_information(location_information["fees"]):
+        location_information["fees"] = "<i>No fee listed.</i>"
+    if is_missing_information(location_information["restrictions"]):
+        location_information["restrictions"] = "<i>No restrictions listed.</i>"
+    if is_missing_information(location_information["reservations"]):
+        location_information["reservations"] = "<i>No reservation requirements listed.</i>"
 
     return flask.jsonify(location_information)
 
