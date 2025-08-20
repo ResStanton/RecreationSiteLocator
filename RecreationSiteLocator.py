@@ -42,5 +42,5 @@ else:
         print(f'Error installing packages: {e}')
     
     # run the application in the newly created environment 
-    print("Setup compleat")
+    print("Setup complete")
     run_in_environment(venv_path, source_path)
