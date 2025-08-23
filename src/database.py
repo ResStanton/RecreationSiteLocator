@@ -76,8 +76,6 @@ class Database:
                                     }, 
                                     "properties.MARKERACTIVITYGROUP": activity_type })
  
-
- 
     
     def close(self):
         self._client.close()
